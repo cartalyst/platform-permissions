@@ -75,7 +75,7 @@ class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function findAll($removeSuperUser = false)
+	public function findAll()
 	{
 		// Get all the registered permissions
 		$permissions = $this->permissions->sortBy('name')->all();
@@ -85,15 +85,10 @@ class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
 		{
 			foreach ($group->all() as $permission)
 			{
-				// if ($removeSuperUser && $permission->id === 'superuser')
-				// {
-				// 	unset($group[$permission->id]); continue;
-				// }
-
 				$permission->inheritable = $this->inheritable;
 			}
 
-			// If the group doesn't have any permissions,
+			// If the group doesn't have permissions,
 			// we will completely remove the group.
 			if (count($group) === 0)
 			{
@@ -111,8 +106,6 @@ class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
 	{
 		foreach ($permissions as $permission => $access)
 		{
-			//$value = $this->inheritable ? ($access === true ? 1 : -1) : ($access === true ? 1 : 0);
-
 			$permissions[$permission] = $access;
 		}
 
@@ -121,21 +114,14 @@ class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
 
 	protected function registerGlobalPermissions()
 	{
-		$this->permissions->group('1', function($g)
-		{
-			$g->name = trans('platform/users::permissions.global');
-
-			// Loop through global permissions configuration and attach
-			$permissions = $this->app['config']->get('platform/users::permissions.global');
-
-			foreach ($permissions as $permission => $label)
+		call_user_func(
+			$this->app['config']->get('platform/permissions::global'),
+			$this->permissions->group('1', function($g)
 			{
-				$g->permission($permission, function($p) use ($label)
-				{
-					$p->label = $label;
-				});
-			}
-		});
+				$g->name = trans('platform/permissions::permissions.global');
+			})
+		);
+
 	}
 
 	protected function preparePermissions()

@@ -22,10 +22,9 @@ interface PermissionsRepositoryInterface {
 	/**
 	 * Finds all available permissions that are registered.
 	 *
-	 * @param  bool  $removeSuperUser
 	 * @return array
 	 */
-	public function findAll($removeSuperUser = false);
+	public function findAll();
 
 	// /**
 	//  * Encodes user permissions to match that of the encoded "all"
