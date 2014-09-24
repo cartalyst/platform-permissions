@@ -16,13 +16,13 @@ Extension history and capabilities.
 
 Platform Permissions is installable with Composer. Read further information on how to install.
 
-[Installation Guide](https://cartalyst.com/manual/platform-Permissions/1.0#installation)
+[Installation Guide](https://cartalyst.com/manual/platform-permissions/1.0#installation)
 
 ## Documentation
 
 Refer to the following guide on how to use the Platform Permissions extension.
 
-[Documentation](https://cartalyst.com/manual/platform-Permissions/1.0)
+[Documentation](https://cartalyst.com/manual/platform-permissions/1.0)
 
 ## Versioning
 
@@ -44,7 +44,7 @@ Please read the [Contributing](contributing.md) guidelines.
 
 ## Support
 
-Have a bug? Please create an [issue](https://github.com/cartalyst/platform-Permissions/issues) here on GitHub that conforms with [necolas's guidelines](https://github.com/necolas/issue-guidelines).
+Have a bug? Please create an [issue](https://github.com/cartalyst/platform-permissions/issues) here on GitHub that conforms with [necolas's guidelines](https://github.com/necolas/issue-guidelines).
 
 Follow us on Twitter, [@cartalyst](http://twitter.com/cartalyst).
 
