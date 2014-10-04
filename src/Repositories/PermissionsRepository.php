@@ -18,8 +18,9 @@
  */
 
 use Illuminate\Container\Container;
+use Cartalyst\Permissions\Container as Permissions;
 
-class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
+class PermissionsRepository implements PermissionsRepositoryInterface {
 
 	/**
 	 * The Container instance.
@@ -52,7 +53,7 @@ class PlatformPermissionsRepository implements PermissionsRepositoryInterface {
 	{
 		$this->app = $app;
 
-		$this->permissions = $app['platform.permissions'];
+		$this->permissions = new Permissions('platform');
 
 		$this->preparePermissions();
 

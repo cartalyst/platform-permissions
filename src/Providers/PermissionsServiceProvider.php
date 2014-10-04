@@ -17,8 +17,7 @@
  * @link       http://cartalyst.com
  */
 
-use Illuminate\Support\ServiceProvider;
-use Cartalyst\Permissions\Container as Permissions;
+use Cartalyst\Support\ServiceProvider;
 
 class PermissionsServiceProvider extends ServiceProvider {
 
@@ -27,6 +26,7 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
+		// Register the extension component namespaces
 		$this->package('platform/permissions', 'platform/permissions', __DIR__.'/../..');
 	}
 
@@ -35,17 +35,9 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['platform.permissions'] = $this->app->share(function($app)
-		{
-			return new Permissions('platform');
-		});
-
 		$this->registerPermissionsFilter();
 
-		$this->app->bindIf(
-			'Platform\Permissions\Repositories\PermissionsRepositoryInterface',
-			'Platform\Permissions\Repositories\PlatformPermissionsRepository'
-		);
+		$this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
 	}
 
 	protected function registerPermissionsFilter()
