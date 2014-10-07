@@ -17,6 +17,7 @@
  * @link       http://cartalyst.com
  */
 
+use Closure;
 use Illuminate\Container\Container;
 use Cartalyst\Permissions\Container as Permissions;
 
@@ -130,7 +131,12 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		// Loop through all the enabled extensions
 		foreach ($this->app['extensions']->allEnabled() as $extension)
 		{
-			call_user_func($extension->permissions, $this->permissions);
+			$callable = $extension->permissions;
+
+			if ($callable instanceof Closure)
+			{
+				call_user_func($callable, $this->permissions);
+			}
 		}
 	}
 
