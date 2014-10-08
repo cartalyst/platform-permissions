@@ -20,28 +20,35 @@
 interface PermissionsRepositoryInterface {
 
 	/**
+	 * Sets the permissions inheritance status.
+	 *
+	 * @param  bool  $status
+	 * @return $this
+	 */
+	public function inheritable($status = true);
+
+	/**
 	 * Finds all available permissions that are registered.
 	 *
 	 * @return array
 	 */
 	public function findAll();
 
-	// /**
-	//  * Encodes user permissions to match that of the encoded "all"
-	//  * permissions above.
-	//  *
-	//  * @param  array  $permissions
-	//  * @return array
-	//  */
-	// public function encodePermissions(array $permissions);
+	/**
+	 *
+	 *
+	 * @param  string  $inputName
+	 * @return $this
+	 */
+	public function withInput($inputName = 'permissions');
 
-	// /**
-	//  * Decodes user permissions to match that of the encoded "all"
-	//  * permissions above.
-	//  *
-	//  * @param  array  $permissions
-	//  * @return array
-	//  */
-	// public function decodePermissions(array $permissions);
+	/**
+	 * Prepares the given permissions, merging in any old input.
+	 *
+	 * @param  array  $permissions
+	 * @return array
+	 */
+	public function prepareEntityPermissions(array $permissions);
+
 
 }

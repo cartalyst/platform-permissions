@@ -38,11 +38,18 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	protected $permissions;
 
 	/**
-	 *
+	 * The permissions inheritance status.
 	 *
 	 * @var bool
 	 */
 	protected $inheritable = true;
+
+	/**
+	 *
+	 *
+	 * @var array
+	 */
+	protected $input = [];
 
 	/**
 	 * Constructor.
@@ -62,10 +69,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	}
 
 	/**
-	 * Sets the permissions inheritance status.
-	 *
-	 * @param  bool  $status
-	 * @return $this
+	 * {@inheritDoc}
 	 */
 	public function inheritable($status = true)
 	{
@@ -104,11 +108,28 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function withInput($inputName = 'permissions')
+	{
+		$this->input = $this->app['request']->old($inputName, []);
+
+		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function prepareEntityPermissions(array $permissions)
 	{
+		// Prepare the given entity permissions
 		foreach ($permissions as $permission => $access)
 		{
 			$permissions[$permission] = $access;
+		}
+
+		//
+		if ( ! empty($this->input))
+		{
+			return array_merge($permissions, $this->input);
 		}
 
 		return $permissions;
@@ -123,7 +144,6 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 				$g->name = trans('platform/permissions::permissions.global');
 			})
 		);
-
 	}
 
 	protected function preparePermissions()
