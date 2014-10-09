@@ -126,13 +126,8 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 			$permissions[$permission] = $access;
 		}
 
-		//
-		if ( ! empty($this->input))
-		{
-			return array_merge($permissions, $this->input);
-		}
-
-		return $permissions;
+		// Return the prepared permissions
+		return array_merge($permissions, $this->input);
 	}
 
 	protected function registerGlobalPermissions()
