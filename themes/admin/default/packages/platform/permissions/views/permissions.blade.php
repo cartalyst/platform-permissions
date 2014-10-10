@@ -31,7 +31,7 @@
 						</label>
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_deny">
-							<input type="radio" value="-1" id="{{{ $permission->id }}}_deny" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === false ? ' checked="checked"' : null) }}>
+							<input type="radio" value="-1" id="{{{ $permission->id }}}_deny" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id, ($permission->inheritable ? null : false)) === false ? ' checked="checked"' : null) }}>
 							{{{ trans('general.deny') }}}
 						</label>
 
