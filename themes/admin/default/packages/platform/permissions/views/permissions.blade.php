@@ -26,18 +26,18 @@
 					<div class="col-lg-9">
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_allow">
-							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{{ (array_get($entityPermissions, $permission->id) == 1 ? ' checked="checked"' : null) }}}>
+							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === true ? ' checked="checked"' : null) }}>
 							{{{ trans('general.allow') }}}
 						</label>
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_deny">
-							<input type="radio" value="-1" id="{{{ $permission->id }}}_deny" name="permissions[{{{ $permission->id }}}]"{{{ (array_get($entityPermissions, $permission->id) == -1 ? ' checked="checked"' : null) }}}>
+							<input type="radio" value="-1" id="{{{ $permission->id }}}_deny" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === false ? ' checked="checked"' : null) }}>
 							{{{ trans('general.deny') }}}
 						</label>
 
 						@if ($permission->inheritable)
 						<label class="radio-inline" for="{{{ $permission->id }}}_inherit">
-							<input type="radio" value="0" id="{{{ $permission->id }}}_inherit" name="permissions[{{{ $permission->id }}}]"{{{ ( ! array_get($entityPermissions, $permission->id) ? ' checked="checked"' : null) }}}>
+							<input type="radio" value="0" id="{{{ $permission->id }}}_inherit" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === null ? ' checked="checked"' : null) }}>
 							{{{ trans('general.inherit') }}}
 						</label>
 						@endif
