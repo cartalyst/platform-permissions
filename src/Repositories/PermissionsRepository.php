@@ -61,11 +61,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	{
 		$this->app = $app;
 
-		$this->permissions = new Permissions('platform');
-
 		$this->preparePermissions();
-
-		$this->registerGlobalPermissions();
 	}
 
 	/**
@@ -84,25 +80,28 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	public function findAll()
 	{
 		// Get all the registered permissions
-		$permissions = $this->permissions->sortBy('name')->all();
+		$groups = $this->permissions->sortBy('name')->all();
 
-		//
-		foreach ($permissions as $group)
+		// Loop through the groups
+		foreach ($groups as $group)
 		{
-			foreach ($group->all() as $permission)
-			{
-				$permission->inheritable = $this->inheritable;
-			}
-
 			// If the group doesn't have permissions,
 			// we will completely remove the group.
 			if (count($group) === 0)
 			{
-				unset($permissions[$group->id]);
+				unset($groups[$group->id]);
+
+				continue;
+			}
+
+			// Loop through the group permissions
+			foreach ($group->all() as $permission)
+			{
+				$permission->inheritable = $this->inheritable;
 			}
 		}
 
-		return $permissions;
+		return $groups;
 	}
 
 	/**
@@ -130,19 +129,11 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		return array_merge($permissions, $this->input);
 	}
 
-	protected function registerGlobalPermissions()
-	{
-		call_user_func(
-			$this->app['config']->get('platform/permissions::global'),
-			$this->permissions->group('1', function($g)
-			{
-				$g->name = trans('platform/permissions::permissions.global');
-			})
-		);
-	}
 
 	protected function preparePermissions()
 	{
+		$this->permissions = new Permissions('platform');
+
 		// Loop through all the enabled extensions
 		foreach ($this->app['extensions']->allEnabled() as $extension)
 		{
@@ -153,6 +144,14 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 				call_user_func($callable, $this->permissions);
 			}
 		}
+
+		call_user_func(
+			$this->app['config']->get('platform/permissions::global'),
+			$this->permissions->group('1', function($g)
+			{
+				$g->name = trans('platform/permissions::permissions.global');
+			})
+		);
 	}
 
 }

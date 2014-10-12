@@ -28,7 +28,7 @@ interface PermissionsRepositoryInterface {
 	public function inheritable($status = true);
 
 	/**
-	 * Finds all available permissions that are registered.
+	 * Finds all the registered permissions groups.
 	 *
 	 * @return array
 	 */
