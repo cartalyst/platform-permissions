@@ -129,6 +129,30 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		return array_merge($permissions, $this->input);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getPreparedPermissions()
+	{
+		$permissions = [];
+
+		foreach ($this->findAll() as $group)
+		{
+			foreach ($group->all() as $permission)
+			{
+				if ($permission->controller)
+				{
+					foreach ($permission->methods as $method)
+					{
+						$permissions["{$permission->controller}@{$method}"] = $permission->id;
+					}
+				}
+			}
+		}
+
+		return $permissions;
+	}
+
 
 	protected function preparePermissions()
 	{

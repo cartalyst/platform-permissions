@@ -50,5 +50,12 @@ interface PermissionsRepositoryInterface {
 	 */
 	public function prepareEntityPermissions(array $permissions);
 
+	/**
+	 * Returns an array with all the permissions
+	 * so it's easier to do permission checks.
+	 *
+	 * @return array
+	 */
+	public function getPreparedPermissions();
 
 }
