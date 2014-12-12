@@ -35,7 +35,7 @@ interface PermissionsRepositoryInterface {
 	public function findAll();
 
 	/**
-	 *
+	 * Sets permissions from the request.
 	 *
 	 * @param  string  $inputName
 	 * @return $this

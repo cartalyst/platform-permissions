@@ -45,7 +45,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	protected $inheritable = true;
 
 	/**
-	 *
+	 * Input array
 	 *
 	 * @var array
 	 */
@@ -153,7 +153,11 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		return $permissions;
 	}
 
-
+	/**
+	 * Prepares permissions.
+	 *
+	 * @return void
+	 */
 	protected function preparePermissions()
 	{
 		$this->permissions = new Permissions('platform');
