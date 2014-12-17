@@ -2,7 +2,7 @@
 
 [![Build Status](http://ci.cartalyst.com/build-status/svg/40)](http://ci.cartalyst.com/build-status/view/40)
 
-Part of the Cartalyst Arsenal & licensed [Cartalyst PSL](license.txt). Code well, rock on.
+Part of the Cartalyst Arsenal & licensed [Cartalyst PSL](LICENSE). Code well, rock on.
 
 ## Extension Story
 
