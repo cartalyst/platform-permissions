@@ -154,6 +154,16 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	}
 
 	/**
+	 * Returns the permissions container.
+	 *
+	 * @return \Cartalyst\Permissions\Container
+	 */
+	public function getPermissions()
+	{
+		return $this->permissions;
+	}
+
+	/**
 	 * Prepares permissions.
 	 *
 	 * @return void

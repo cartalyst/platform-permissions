@@ -58,4 +58,11 @@ interface PermissionsRepositoryInterface {
 	 */
 	public function getPreparedPermissions();
 
+	/**
+	 * Returns the permissions container.
+	 *
+	 * @return \Cartalyst\Permissions\Container
+	 */
+	public function getPermissions();
+
 }
