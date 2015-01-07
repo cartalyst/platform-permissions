@@ -1,6 +1,3 @@
-{{-- Queue assets --}}
-{{ Asset::queue('bootstrap.collapse', 'js/bootstrap/collapse.js', 'jquery') }}
-
 <div class="panel-group" id="accordion">
 
 	@foreach ($permissions as $group)
@@ -27,18 +24,18 @@
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_allow">
 							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === true ? ' checked="checked"' : null) }}>
-							{{{ trans('general.allow') }}}
+							{{{ trans('common.allow') }}}
 						</label>
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_deny">
 							<input type="radio" value="-1" id="{{{ $permission->id }}}_deny" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id, ($permission->inheritable ? null : false)) === false ? ' checked="checked"' : null) }}>
-							{{{ trans('general.deny') }}}
+							{{{ trans('common.deny') }}}
 						</label>
 
 						@if ($permission->inheritable)
 						<label class="radio-inline" for="{{{ $permission->id }}}_inherit">
 							<input type="radio" value="0" id="{{{ $permission->id }}}_inherit" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === null ? ' checked="checked"' : null) }}>
-							{{{ trans('general.inherit') }}}
+							{{{ trans('common.inherit') }}}
 						</label>
 						@endif
 
