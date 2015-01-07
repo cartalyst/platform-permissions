@@ -1,26 +1,31 @@
-<div class="panel-group" id="accordion">
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 	@foreach ($permissions as $group)
-	<div class="panel panel-default">
 
-		<div class="panel-heading">
+	<div class="panel panel-default panel-permissions">
+
+		<div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#panel-{{{ $group->id }}}" aria-expanded="true" aria-controls="panel-{{{ $group->id }}}">
+
 			<h4 class="panel-title">
-				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel-{{{ $group->id }}}">
-					{{{ $group->name }}}
-				</a>
+				{{{ $group->name }}}
+				<a class="panel-close small pull-right tip" data-original-title="{{{ trans('action.collapse') }}}"></a>
 			</h4>
+
 		</div>
 
-		<div id="panel-{{{ $group->id }}}" class="panel-collapse collapse">
+		<div id="panel-{{{ $group->id }}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 
 			<div class="panel-body">
 
 				@foreach ($group->all() as $permission)
-				<div class="form-group">
+				<div class="row permission">
 
-					<label class="col-lg-3 control-label">{{{ $permission->label }}}</label>
+					<div class="col-sm-3 text-right">
+						<label class="control-label">{{{ $permission->label }}}</label>
+					</div>
 
-					<div class="col-lg-9">
+					<div class="col-sm-9">
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_allow">
 							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === true ? ' checked="checked"' : null) }}>
@@ -42,6 +47,7 @@
 					</div>
 
 				</div>
+
 				@endforeach
 
 			</div>
@@ -49,6 +55,7 @@
 		</div>
 
 	</div>
+
 	@endforeach
 
 </div>
