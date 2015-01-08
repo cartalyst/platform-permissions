@@ -28,7 +28,7 @@
 					<div class="col-sm-9">
 
 						<label class="radio-inline" for="{{{ $permission->id }}}_allow">
-							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === true ? ' checked="checked"' : null) }}>
+							<input type="radio" value="1" id="{{{ $permission->id }}}_allow" name="permissions[{{{ $permission->id }}}]"{{ (array_get($entityPermissions, $permission->id) === true ? ' checked="checked"' : null) }} data-parsley-ui-enabled="false">
 							{{{ trans('common.allow') }}}
 						</label>
 
