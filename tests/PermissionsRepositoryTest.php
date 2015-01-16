@@ -31,20 +31,16 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 	{
 		parent::setUp();
 
-		// Additional IoC bindings
-		$callback = function() {};
-
 		$this->app['config'] = m::mock('Illuminate\Config\Repository');
-		$this->app['config']->shouldReceive('get')
-			->andReturn($callback);
+		$this->app['config']->shouldReceive('get')->andReturn(function() {});
 
 		$this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
-		$this->app['extensions']->shouldReceive('allEnabled')
-			->once()
-			->andReturn([$this->extension = m::mock('Cartalyst\Extensions\Extension')]);
+		$this->app['extensions']
+			->shouldReceive('allEnabled')->once()
+			->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
+		;
 
-		$this->app['translator']->shouldReceive('trans')
-			->andReturn('foo');
+		$this->app['translator']->shouldReceive('trans')->andReturn('foo');
 
 		$permissions = function(Permissions $permissions)
 		{
@@ -59,12 +55,15 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 					$p->controller('FooController', 'index');
 				});
 			});
+
+			$permissions->group('bar');
 		};
 
-		$this->extension->shouldReceive('getAttribute')
-			->with('permissions')
-			->once()
-			->andReturn($permissions);
+		$this->extension
+			->shouldReceive('getAttribute')
+			->with('permissions')->once()
+			->andReturn($permissions)
+		;
 
 		// Repository
 		$this->repository = new PermissionsRepository($this->app);
@@ -102,14 +101,23 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 			'foo'     => 'bar',
 		];
 
-		$this->app['request']->shouldReceive('old')
+		$this->app['request']
+			->shouldReceive('old')
 			->with('permissions', [])
-			->once()
-			->andReturn(['foo' => 'bar']);
+			->once()->andReturn([ 'foo' => 'bar' ])
+		;
 
 		$this->repository->withInput();
 
-		$this->assertEquals($expectedPermissions, $this->repository->prepareEntityPermissions(['Foo@foo' => 'foo']));
+		$this->assertEquals($expectedPermissions, $this->repository->prepareEntityPermissions([ 'Foo@foo' => 'foo' ]));
+	}
+
+	/** @test */
+	public function it_can_get_the_permissions_container()
+	{
+		$container = $this->repository->getPermissions();
+
+		$this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
 	}
 
 	/** @test */
