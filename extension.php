@@ -184,13 +184,17 @@ return [
 			$g->name = trans('platform/permissions::permissions.global');
 		});
 
-		call_user_func(
-			$app['config']->get('platform/permissions::global'),
-			$permissions->group('global', function($g)
-			{
-				$g->name = trans('platform/permissions::permissions.global');
-			})
-		);
+		$global = $app['config']->get('platform/permissions::global');
+
+		if ($global instanceof Closure)
+		{
+			call_user_func(
+				$global, $permissions->group('global', function($g)
+				{
+					$g->name = trans('platform/permissions::permissions.global');
+				})
+			);
+		}
 	},
 
 	/*
