@@ -2,55 +2,39 @@
 
 [![Build Status](http://ci.cartalyst.com/build-status/svg/40)](http://ci.cartalyst.com/build-status/view/40)
 
+Manage your application permissions.
+
 Part of the Cartalyst Arsenal & licensed [Cartalyst PSL](LICENSE). Code well, rock on.
-
-## Extension Story
-
-Extension history and capabilities.
-
-#### xx-Jan-14 - v1.0.0
-
-- User can set the Permissions and fallback themes.
-
-## Installation
-
-Platform Permissions is installable with Composer. Read further information on how to install.
-
-[Installation Guide](https://cartalyst.com/manual/platform-permissions/1.0#installation)
 
 ## Documentation
 
-Refer to the following guide on how to use the Platform Permissions extension.
+Reader-friendly Documentation can be found here. [Permissions Manual](https://cartalyst.com/manual/platform-permissions).
 
-[Documentation](https://cartalyst.com/manual/platform-permissions/1.0)
+Raw files can be found via this projects docs/version branch.
 
-## Versioning
+- [v1.0](https://github.com/cartalyst/platform-permissions/tree/docs/1.0)
 
-We version under the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
+## Changelog
 
-Releases will be numbered with the following format:
+Important versions listed below. Refer to the [Changelog](CHANGELOG.md) for a full history of the project.
 
-`<major>.<minor>.<patch>`
-
-And constructed with the following guidelines:
-
-* Breaking backward compatibility bumps the major (and resets the minor and patch)
-* New additions without breaking backward compatibility bumps the minor (and resets the patch)
-* Bug fixes and misc changes bumps the patch
-
-## Contributing
-
-Please read the [Contributing](contributing.md) guidelines.
+- [1.0](CHANGELOG.md) - TBA
 
 ## Support
 
-Have a bug? Please create an [issue](https://github.com/cartalyst/platform-permissions/issues) here on GitHub that conforms with [necolas's guidelines](https://github.com/necolas/issue-guidelines).
+The following support channels can be used for contact.
 
-Follow us on Twitter, [@cartalyst](http://twitter.com/cartalyst).
+- [Twitter](https://cartalyst.com/@twitter)
+- [Email](mailto:help@cartalyst.com)
 
-Join us for a chat on IRC.
+Bug reports, proposals, and pull requests can be submitted by following our [Contribution Guide](CONTRIBUTING.md)
 
-Server: irc.freenode.net
-Channel: #cartalyst
+## Contribution & Protocols
 
-Email: help@cartalyst.com
+- [Contribution Guide](CONTRIBUTING.md)
+
+## License
+
+This software is released under the [Cartalyst PSL](LICENSE) License.
+
+© 2011-2015 Cartalyst LLC, All rights reserved.

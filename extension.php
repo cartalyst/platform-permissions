@@ -71,7 +71,7 @@ return [
 	|
 	*/
 
-	'description' => '..',
+	'description' => 'Manage your application permissions.',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -177,9 +177,20 @@ return [
 	|
 	*/
 
-	'permissions' => function(Permissions $permissions)
+	'permissions' => function(Permissions $permissions, Application $app)
 	{
+		$permissions->group('global', function($g)
+		{
+			$g->name = trans('platform/permissions::permissions.global');
+		});
 
+		call_user_func(
+			$app['config']->get('platform/permissions::global'),
+			$permissions->group('global', function($g)
+			{
+				$g->name = trans('platform/permissions::permissions.global');
+			})
+		);
 	},
 
 	/*
@@ -233,9 +244,6 @@ return [
 	|
 	*/
 
-	'widgets' => function()
-	{
-
-	},
+	'widgets' => null,
 
 ];

@@ -80,7 +80,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	public function findAll()
 	{
 		// Get all the registered permissions
-		$groups = $this->permissions->sortBy('name')->all();
+		$groups = $this->permissions->sortBy('name')->makeFirst('global')->all();
 
 		// Loop through the groups
 		foreach ($groups as $group)
@@ -179,17 +179,9 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 
 			if ($callable instanceof Closure)
 			{
-				call_user_func($callable, $this->permissions);
+				call_user_func($callable, $this->permissions, $this->app);
 			}
 		}
-
-		call_user_func(
-			$this->app['config']->get('platform/permissions::global'),
-			$this->permissions->group('1', function($g)
-			{
-				$g->name = trans('platform/permissions::permissions.global');
-			})
-		);
 	}
 
 }
