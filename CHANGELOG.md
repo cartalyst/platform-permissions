@@ -13,4 +13,6 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ### v1.0.0 - 2015-01-20
 
-- Initial release.
+- Reads extension.php permission settings.
+- Can set, update user permissions.
+- Can set, update role permissions.
