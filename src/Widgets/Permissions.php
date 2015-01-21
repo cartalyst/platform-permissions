@@ -45,7 +45,7 @@ class Permissions {
 	 * @param  array  $entityPermissions
 	 * @param  bool  $inheritable
 	 * @return mixed
-	 */##
+	 */
 	public function show($entityPermissions = [], $inheritable = true)
 	{
 		$permissions = $this->permissions->inheritable($inheritable)->findAll();
