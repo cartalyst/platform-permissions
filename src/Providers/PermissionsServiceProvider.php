@@ -52,7 +52,7 @@ class PermissionsServiceProvider extends ServiceProvider {
 		{
 			$matcher = '/(\s*)@permissions(\(.*?\)\s*)/';
 
-			return preg_replace($matcher, '<?php echo Widget::make("platform/permissions::permissions.show", $2); ?>', $value);
+			return preg_replace($matcher, '<?php echo Widget::make("platform/permissions::permissions.show", array$2); ?>', $value);
 		});
 	}
 

@@ -43,15 +43,14 @@ class Permissions {
 	 * Shows the available permissions.
 	 *
 	 * @param  array  $entityPermissions
+	 * @param  bool  $inheritable
 	 * @return mixed
-	 */
-	public function show(array $entityPermissions = [])
+	 */##
+	public function show($entityPermissions = [], $inheritable = true)
 	{
-		$permissions = $this->permissions->inheritable()->findAll();
+		$permissions = $this->permissions->inheritable($inheritable)->findAll();
 
 		$entityPermissions = $this->permissions->withInput()->prepareEntityPermissions($entityPermissions);
-
-		$entityPermissions = [];
 
 		return view('platform/permissions::permissions', compact('permissions', 'entityPermissions'));
 	}
