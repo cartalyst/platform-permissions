@@ -53,7 +53,7 @@ class Permissions {
 
 		$entityPermissions = [];
 
-		return view('platform/permissions::permissions', compact('permissions', ' entityPermissions'));
+		return view('platform/permissions::permissions', compact('permissions', 'entityPermissions'));
 	}
 
 }
