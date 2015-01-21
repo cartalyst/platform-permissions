@@ -99,7 +99,7 @@ return [
 	|
 	*/
 
-	'require' => [],
+	'require' => null,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -209,7 +209,7 @@ return [
 	|
 	*/
 
-	'settings' => function(Settings $settings)
+	'settings' => function(Settings $settings, Application $app)
 	{
 
 	},
