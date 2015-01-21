@@ -28,6 +28,9 @@ class PermissionsServiceProvider extends ServiceProvider {
 	{
 		// Register the extension component namespaces
 		$this->package('platform/permissions', 'platform/permissions', __DIR__.'/../..');
+
+		// Register the Blade @permissions extension
+		$this->registerBladePermissionsWidget();
 	}
 
 	/**
@@ -36,6 +39,21 @@ class PermissionsServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
+	}
+
+	/**
+	 * Register the Blade @permissions extension.
+	 *
+	 * @return void
+	 */
+	protected function registerBladePermissionsWidget()
+	{
+		$this->app['blade.compiler']->extend(function($value)
+		{
+			$matcher = '/(\s*)@permissions(\(.*?\)\s*)/';
+
+			return preg_replace($matcher, '<?php echo Widget::make("platform/permissions::permissions.show", $2); ?>', $value);
+		});
 	}
 
 }
