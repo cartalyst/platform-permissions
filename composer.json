@@ -39,7 +39,7 @@
 	"require": {
 		"php": ">=5.4.0",
 		"cartalyst/composer-installers": "1.2.*",
-		"cartalyst/extensions": "1.1.*",
+		"cartalyst/extensions": "1.2.*",
 		"cartalyst/permissions": "1.0.*"
 	},
 	"require-dev": {
