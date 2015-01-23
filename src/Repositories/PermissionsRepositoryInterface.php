@@ -17,7 +17,32 @@
  * @link       http://cartalyst.com
  */
 
+use Closure;
+use Cartalyst\Permissions\Container;
+
 interface PermissionsRepositoryInterface {
+
+	/**
+	 * Returns the permissions container.
+	 *
+	 * @return \Cartalyst\Permissions\Container
+	 */
+	public function getPermissions();
+
+	/**
+	 * Sets the permissions container.
+	 *
+	 * @return \Cartalyst\Permissions\Container
+	 */
+	public function setPermissions(Container $permissions);
+
+	/**
+	 * Prepares the given permissions.
+	 *
+	 * @param  \Closure  $permissions
+	 * @return \Cartalyst\Permissions\Container
+	 */
+	public function prepare(Closure $permissions);
 
 	/**
 	 * Sets the permissions inheritance status.
@@ -26,6 +51,14 @@ interface PermissionsRepositoryInterface {
 	 * @return $this
 	 */
 	public function inheritable($status = true);
+
+	/**
+	 * Returns the given group permissions.
+	 *
+	 * @param  string  $group
+	 * @return array
+	 */
+	public function find($group);
 
 	/**
 	 * Finds all the registered permissions groups.
@@ -57,12 +90,5 @@ interface PermissionsRepositoryInterface {
 	 * @return array
 	 */
 	public function getPreparedPermissions();
-
-	/**
-	 * Returns the permissions container.
-	 *
-	 * @return \Cartalyst\Permissions\Container
-	 */
-	public function getPermissions();
 
 }

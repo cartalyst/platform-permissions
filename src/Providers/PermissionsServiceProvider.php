@@ -17,6 +17,7 @@
  * @link       http://cartalyst.com
  */
 
+use Cartalyst\Permissions\Container;
 use Cartalyst\Support\ServiceProvider;
 
 class PermissionsServiceProvider extends ServiceProvider {
@@ -38,6 +39,11 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->bindIf('permissions', function($app)
+		{
+			return new Container('platform');
+		});
+
 		$this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
 	}
 

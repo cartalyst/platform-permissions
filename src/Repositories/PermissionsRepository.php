@@ -61,7 +61,39 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	{
 		$this->app = $app;
 
+		$this->permissions = $app['permissions'];
+
 		$this->preparePermissions();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getPermissions()
+	{
+		return $this->permissions;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setPermissions(Permissions $permissions)
+	{
+		$this->permissions = $permissions;
+
+		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function prepare(Closure $permissions)
+	{
+		$container = new Permissions('platform');
+
+		call_user_func($permissions, $container, $this->app);
+
+		return $container;
 	}
 
 	/**
@@ -72,6 +104,14 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		$this->inheritable = (bool) $status;
 
 		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function find($group)
+	{
+		return $this->permissions->find($group);
 	}
 
 	/**
@@ -154,33 +194,12 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 	}
 
 	/**
-	 * Returns the permissions container.
-	 *
-	 * @return \Cartalyst\Permissions\Container
-	 */
-	public function getPermissions()
-	{
-		return $this->permissions;
-	}
-
-	public function getPrepared($permissions)
-	{
-		$container = new Permissions('platform');
-
-		$permissions = call_user_func($permissions, $container, $this->app);
-
-		return $container;
-	}
-
-	/**
 	 * Prepares permissions.
 	 *
 	 * @return void
 	 */
 	protected function preparePermissions()
 	{
-		$this->permissions = new Permissions('platform');
-
 		// Loop through all the enabled extensions
 		foreach ($this->app['extensions']->allEnabled() as $extension)
 		{
