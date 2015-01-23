@@ -52,7 +52,7 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 
 				$g->permission('foo.index', function($p)
 				{
-					$p->label = trans('platform/foo::permissions.index');
+					$p->label = 'My Permission';
 
 					$p->controller('FooController', 'index');
 				});
@@ -139,7 +139,7 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 
 				$g->permission('foo.index', function($p)
 				{
-					$p->label = trans('platform/foo::permissions.index');
+					$p->label = 'My Permission';
 
 					$p->controller('FooController', 'index');
 				});
