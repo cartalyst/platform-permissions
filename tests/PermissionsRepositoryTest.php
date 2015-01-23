@@ -34,6 +34,8 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 		$this->app['config'] = m::mock('Illuminate\Config\Repository');
 		$this->app['config']->shouldReceive('get')->andReturn(function() {});
 
+		$this->app['permissions'] = new Permissions('platform');
+
 		$this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
 		$this->app['extensions']
 			->shouldReceive('allEnabled')->once()
@@ -57,6 +59,8 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 			});
 
 			$permissions->group('bar');
+
+			$permissions->group('baz');
 		};
 
 		$this->extension
@@ -113,11 +117,40 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 	}
 
 	/** @test */
-	public function it_can_get_the_permissions_container()
+	public function it_can_get_and_set_the_permissions_container()
 	{
 		$container = $this->repository->getPermissions();
 
 		$this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
+
+		$this->repository->setPermissions(new Permissions('foo'));
+
+		$this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
+	}
+
+	/** @test */
+	public function it_can_prepare_permissions()
+	{
+		$permissions = function(Permissions $permissions)
+		{
+			$permissions->group('foo', function($g)
+			{
+				$g->name = 'Foo';
+
+				$g->permission('foo.index', function($p)
+				{
+					$p->label = trans('platform/foo::permissions.index');
+
+					$p->controller('FooController', 'index');
+				});
+			});
+
+			$permissions->group('bar');
+		};
+
+		$permissions = $this->repository->prepare($permissions);
+
+		$this->assertInstanceOf('Cartalyst\Permissions\Container', $permissions);
 	}
 
 	/** @test */
@@ -140,6 +173,14 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 		$group = head($permissions);
 
 		$this->assertTrue($group['foo.index']->get('inheritable'));
+	}
+
+	/** @test */
+	public function it_can_find_a_group()
+	{
+		$group = $this->repository->find('bar');
+
+		$this->assertInstanceOf('Cartalyst\Permissions\Group', $group);
 	}
 
 }
