@@ -163,6 +163,15 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 		return $this->permissions;
 	}
 
+	public function getPrepared($permissions)
+	{
+		$container = new Permissions('platform');
+
+		$permissions = call_user_func($permissions, $container, $this->app);
+
+		return $container;
+	}
+
 	/**
 	 * Prepares permissions.
 	 *
