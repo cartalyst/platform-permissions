@@ -74,6 +74,14 @@ class PermissionsWidgetsTest extends IlluminateTestCase {
 	/** @test */
 	public function test()
 	{
+		$this->app['request']->shouldReceive('old')
+			->once()
+			->andReturn([]);
+
+		$this->app['view']->shouldReceive('make')
+			->with('platform/permissions::permissions', m::any(), [])
+			->once();
+
 		$this->widget->show();
 	}
 }
