@@ -27,9 +27,6 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		// Register the extension component namespaces
-		$this->package('platform/permissions', 'platform/permissions', __DIR__.'/../..');
-
 		// Register the Blade @permissions extension
 		$this->registerBladePermissionsWidget();
 	}
