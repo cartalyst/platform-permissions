@@ -40,7 +40,7 @@
 		"php": ">=5.4.0",
 		"cartalyst/composer-installers": "1.2.*",
 		"cartalyst/permissions": "1.0.*",
-		"platform/foundation": "1.0.*"
+		"platform/foundation": "2.0.*"
 	},
 	"require-dev": {
 		"cartalyst/testing": "~1.0"
