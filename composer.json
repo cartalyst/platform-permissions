@@ -43,7 +43,7 @@
 		"platform/foundation": "2.0.*"
 	},
 	"require-dev": {
-		"cartalyst/testing": "~1.0"
+		"cartalyst/testing": "~2.0"
 	},
 	"autoload": {
 		"classmap": [
