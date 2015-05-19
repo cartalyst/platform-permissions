@@ -36,12 +36,30 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->prepareResources();
+
 		$this->bindIf('permissions', function($app)
 		{
 			return new Container('platform');
 		});
 
 		$this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
+	}
+
+	/**
+	 * Prepare the package resources.
+	 *
+	 * @return void
+	 */
+	protected function prepareResources()
+	{
+		$config = realpath(__DIR__.'/../../config/config.php');
+
+		$this->mergeConfigFrom($config, 'platform-permissions');
+
+		$this->publishes([
+			$config => config_path('platform-permissions.php'),
+		], 'config');
 	}
 
 	/**
