@@ -184,7 +184,7 @@ return [
 			$g->name = trans('platform/permissions::permissions.global');
 		});
 
-		$global = $app['config']->get('platform/permissions::global');
+		$global = $app['config']->get('platform-permissions.global');
 
 		if ($global instanceof Closure)
 		{
