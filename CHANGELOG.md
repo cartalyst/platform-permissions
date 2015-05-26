@@ -11,6 +11,13 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
+### v2.0.1 - 2015-05-26
+
+`FIXED`
+
+- Incorrect config reference.
+- Publish config on the service provider.
+
 ### v2.0.0 - 2015-03-05
 
 - Updated for Platform 3.
