@@ -20,7 +20,7 @@
 use Closure;
 use Illuminate\Container\Container;
 use Cartalyst\Permissions\Container as Permissions;
-use Sentinel;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class PermissionsRepository implements PermissionsRepositoryInterface {
 
