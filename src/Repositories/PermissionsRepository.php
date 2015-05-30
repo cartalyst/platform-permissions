@@ -20,6 +20,7 @@
 use Closure;
 use Illuminate\Container\Container;
 use Cartalyst\Permissions\Container as Permissions;
+use Sentinel;
 
 class PermissionsRepository implements PermissionsRepositoryInterface {
 
@@ -138,6 +139,11 @@ class PermissionsRepository implements PermissionsRepositoryInterface {
 			foreach ($group->all() as $permission)
 			{
 				$permission->inheritable = $this->inheritable;
+
+				if ( ! Sentinel::hasAnyAccess(['superuser', $permission->id]))
+				{
+					unset($groups[$group->id][$permission->id]);
+				}
 			}
 		}
 
