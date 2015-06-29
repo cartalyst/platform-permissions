@@ -11,6 +11,12 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
+### v2.0.2 - 2015-06-29
+
+`UPDATED`
+
+- Improved the permissions repository to only return the permissions the user can really see.
+
 ### v2.0.1 - 2015-05-26
 
 `FIXED`
