@@ -11,6 +11,12 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
+### v2.0.3 - 2015-06-30
+
+`FIXED`
+
+- Issue where the checkboxes weren't being populated properly after a form submit.
+
 ### v2.0.2 - 2015-06-29
 
 `UPDATED`
