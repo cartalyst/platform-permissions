@@ -50,7 +50,16 @@ class Permissions {
 	{
 		$permissions = $this->permissions->inheritable($inheritable)->findAll();
 
-		$entityPermissions = $this->permissions->withInput()->prepareEntityPermissions($entityPermissions);
+		$entityPermissions = array_map(function ($permission) {
+			if ($permission === true) {
+				$permission = '1';
+			} elseif ($permission === false) {
+				$permission = '-1';
+			} else {
+				$permission = '0';
+			}
+			return $permission;
+		}, $this->permissions->withInput()->prepareEntityPermissions($entityPermissions));
 
 		return view('platform/permissions::permissions', compact('permissions', 'entityPermissions'));
 	}
