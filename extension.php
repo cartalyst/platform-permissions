@@ -18,9 +18,9 @@
  * @link       http://cartalyst.com
  */
 
-use Illuminate\Contracts\Foundation\Application;
 use Cartalyst\Extensions\ExtensionInterface;
 use Cartalyst\Settings\Repository as Settings;
+use Illuminate\Contracts\Foundation\Application;
 use Cartalyst\Permissions\Container as Permissions;
 
 return [
