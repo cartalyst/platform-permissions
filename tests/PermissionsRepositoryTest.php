@@ -1,4 +1,5 @@
-<?php namespace Platform\Permissions\Tests;
+<?php
+
 /**
  * Part of the Platform Permissions extension.
  *
@@ -10,177 +11,172 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    2.0.3
+ * @version    3.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2015, Cartalyst LLC
  * @link       http://cartalyst.com
  */
 
+namespace Platform\Permissions\Tests;
+
 use Mockery as m;
 use Cartalyst\Testing\IlluminateTestCase;
 use Cartalyst\Permissions\Container as Permissions;
 use Platform\Permissions\Repositories\PermissionsRepository;
 
-class PermissionsRepositoryTest extends IlluminateTestCase {
+class PermissionsRepositoryTest extends IlluminateTestCase
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function setUp()
+    {
+        parent::setUp();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setUp()
-	{
-		parent::setUp();
+        $this->app['config'] = m::mock('Illuminate\Config\Repository');
+        $this->app['config']->shouldReceive('get')->andReturn(function () {});
 
-		$this->app['config'] = m::mock('Illuminate\Config\Repository');
-		$this->app['config']->shouldReceive('get')->andReturn(function() {});
+        $this->app['permissions'] = new Permissions('platform');
 
-		$this->app['permissions'] = new Permissions('platform');
+        $this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
+        $this->app['extensions']
+            ->shouldReceive('allEnabled')->once()
+            ->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
+        ;
 
-		$this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
-		$this->app['extensions']
-			->shouldReceive('allEnabled')->once()
-			->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
-		;
+        $this->app['translator']->shouldReceive('trans')->andReturn('foo');
 
-		$this->app['translator']->shouldReceive('trans')->andReturn('foo');
+        $permissions = function (Permissions $permissions) {
+            $permissions->group('foo', function ($g) {
+                $g->name = 'Foo';
 
-		$permissions = function(Permissions $permissions)
-		{
-			$permissions->group('foo', function($g)
-			{
-				$g->name = 'Foo';
+                $g->permission('foo.index', function ($p) {
+                    $p->label = 'My Permission';
 
-				$g->permission('foo.index', function($p)
-				{
-					$p->label = 'My Permission';
+                    $p->controller('FooController', 'index');
+                });
+            });
 
-					$p->controller('FooController', 'index');
-				});
-			});
+            $permissions->group('bar');
 
-			$permissions->group('bar');
+            $permissions->group('baz');
+        };
 
-			$permissions->group('baz');
-		};
+        $this->extension
+            ->shouldReceive('getAttribute')
+            ->with('permissions')->once()
+            ->andReturn($permissions)
+        ;
 
-		$this->extension
-			->shouldReceive('getAttribute')
-			->with('permissions')->once()
-			->andReturn($permissions)
-		;
+        // Repository
+        $this->repository = new PermissionsRepository($this->app);
+    }
 
-		// Repository
-		$this->repository = new PermissionsRepository($this->app);
-	}
+    /** @test */
+    public function it_can_find_and_prepare_permissions()
+    {
+        $preparedPermissions = [
+            'FooController@index' => 'foo.index',
+        ];
 
-	/** @test */
-	public function it_can_find_and_prepare_permissions()
-	{
-		$preparedPermissions = [
-			'FooController@index' => 'foo.index',
-		];
+        $permissions = $this->repository->findAll();
 
-		$permissions = $this->repository->findAll();
+        $group = head($permissions);
 
-		$group = head($permissions);
+        $this->assertEquals($preparedPermissions, $this->repository->getPreparedPermissions());
 
-		$this->assertEquals($preparedPermissions, $this->repository->getPreparedPermissions());
+        $this->assertTrue($group->hasPermissions());
 
-		$this->assertTrue($group->hasPermissions());
+        $this->assertArrayHasKey('foo', $permissions);
 
-		$this->assertArrayHasKey('foo', $permissions);
+        $this->assertInstanceOf('Cartalyst\Permissions\Group', $group);
+    }
 
-		$this->assertInstanceOf('Cartalyst\Permissions\Group', $group);
-	}
+    /** @test */
+    public function it_can_prepare_entity_permissions()
+    {
+        $preparedPermissions = [
+            'FooController@index' => 'foo.index',
+        ];
 
-	/** @test */
-	public function it_can_prepare_entity_permissions()
-	{
-		$preparedPermissions = [
-			'FooController@index' => 'foo.index',
-		];
+        $expectedPermissions = [
+            'Foo@foo' => 'foo',
+            'foo'     => 'bar',
+        ];
 
-		$expectedPermissions = [
-			'Foo@foo' => 'foo',
-			'foo'     => 'bar',
-		];
+        $this->app['request']
+            ->shouldReceive('old')
+            ->with('permissions', [])
+            ->once()->andReturn([ 'foo' => 'bar' ])
+        ;
 
-		$this->app['request']
-			->shouldReceive('old')
-			->with('permissions', [])
-			->once()->andReturn([ 'foo' => 'bar' ])
-		;
+        $this->repository->withInput();
 
-		$this->repository->withInput();
+        $this->assertEquals($expectedPermissions, $this->repository->prepareEntityPermissions([ 'Foo@foo' => 'foo' ]));
+    }
 
-		$this->assertEquals($expectedPermissions, $this->repository->prepareEntityPermissions([ 'Foo@foo' => 'foo' ]));
-	}
+    /** @test */
+    public function it_can_get_and_set_the_permissions_container()
+    {
+        $container = $this->repository->getPermissions();
 
-	/** @test */
-	public function it_can_get_and_set_the_permissions_container()
-	{
-		$container = $this->repository->getPermissions();
+        $this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
 
-		$this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
+        $this->repository->setPermissions(new Permissions('foo'));
 
-		$this->repository->setPermissions(new Permissions('foo'));
+        $this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
+    }
 
-		$this->assertInstanceOf('Cartalyst\Permissions\Container', $container);
-	}
+    /** @test */
+    public function it_can_prepare_permissions()
+    {
+        $permissions = function (Permissions $permissions) {
+            $permissions->group('foo', function ($g) {
+                $g->name = 'Foo';
 
-	/** @test */
-	public function it_can_prepare_permissions()
-	{
-		$permissions = function(Permissions $permissions)
-		{
-			$permissions->group('foo', function($g)
-			{
-				$g->name = 'Foo';
+                $g->permission('foo.index', function ($p) {
+                    $p->label = 'My Permission';
 
-				$g->permission('foo.index', function($p)
-				{
-					$p->label = 'My Permission';
+                    $p->controller('FooController', 'index');
+                });
+            });
 
-					$p->controller('FooController', 'index');
-				});
-			});
+            $permissions->group('bar');
+        };
 
-			$permissions->group('bar');
-		};
+        $permissions = $this->repository->prepare($permissions);
 
-		$permissions = $this->repository->prepare($permissions);
+        $this->assertInstanceOf('Cartalyst\Permissions\Container', $permissions);
+    }
 
-		$this->assertInstanceOf('Cartalyst\Permissions\Container', $permissions);
-	}
+    /** @test */
+    public function it_can_set_inheritable()
+    {
+        // Inheritable false
+        $this->repository->inheritable(false);
 
-	/** @test */
-	public function it_can_set_inheritable()
-	{
-		// Inheritable false
-		$this->repository->inheritable(false);
+        $permissions = $this->repository->findAll();
 
-		$permissions = $this->repository->findAll();
+        $group = head($permissions);
 
-		$group = head($permissions);
+        $this->assertFalse($group['foo.index']->get('inheritable'));
 
-		$this->assertFalse($group['foo.index']->get('inheritable'));
+        // Inheritable true
+        $this->repository->inheritable();
 
-		// Inheritable true
-		$this->repository->inheritable();
+        $permissions = $this->repository->findAll();
 
-		$permissions = $this->repository->findAll();
+        $group = head($permissions);
 
-		$group = head($permissions);
+        $this->assertTrue($group['foo.index']->get('inheritable'));
+    }
 
-		$this->assertTrue($group['foo.index']->get('inheritable'));
-	}
+    /** @test */
+    public function it_can_find_a_group()
+    {
+        $group = $this->repository->find('bar');
 
-	/** @test */
-	public function it_can_find_a_group()
-	{
-		$group = $this->repository->find('bar');
-
-		$this->assertInstanceOf('Cartalyst\Permissions\Group', $group);
-	}
-
+        $this->assertInstanceOf('Cartalyst\Permissions\Group', $group);
+    }
 }

@@ -1,4 +1,5 @@
-<?php namespace Platform\Permissions\Tests;
+<?php
+
 /**
  * Part of the Platform Permissions extension.
  *
@@ -10,12 +11,14 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    2.0.3
+ * @version    3.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2015, Cartalyst LLC
  * @link       http://cartalyst.com
  */
+
+namespace Platform\Permissions\Tests;
 
 use Mockery as m;
 use Cartalyst\Testing\IlluminateTestCase;
@@ -23,65 +26,62 @@ use Cartalyst\Permissions\Container as Permissions;
 use Platform\Permissions\Widgets\Permissions as Widget;
 use Platform\Permissions\Repositories\PermissionsRepository;
 
-class PermissionsWidgetsTest extends IlluminateTestCase {
+class PermissionsWidgetTest extends IlluminateTestCase
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function setUp()
+    {
+        parent::setUp();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setUp()
-	{
-		parent::setUp();
+        $this->app['permissions'] = new Permissions('platform');
 
-		$this->app['permissions'] = new Permissions('platform');
+        $this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
+        $this->app['extensions']
+            ->shouldReceive('allEnabled')->once()
+            ->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
+        ;
 
-		$this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
-		$this->app['extensions']
-			->shouldReceive('allEnabled')->once()
-			->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
-		;
+        $permissions = function (Permissions $permissions) {
+            $permissions->group('foo', function ($g) {
+                $g->name = 'Foo';
 
-		$permissions = function(Permissions $permissions)
-		{
-			$permissions->group('foo', function($g)
-			{
-				$g->name = 'Foo';
+                $g->permission('foo.index', function ($p) {
+                    $p->label = 'My Permission';
 
-				$g->permission('foo.index', function($p)
-				{
-					$p->label = 'My Permission';
+                    $p->controller('FooController', 'index');
+                });
+            });
 
-					$p->controller('FooController', 'index');
-				});
-			});
+            $permissions->group('bar');
 
-			$permissions->group('bar');
+            $permissions->group('baz');
+        };
 
-			$permissions->group('baz');
-		};
+        $this->extension
+            ->shouldReceive('getAttribute')
+            ->with('permissions')->once()
+            ->andReturn($permissions)
+        ;
 
-		$this->extension
-			->shouldReceive('getAttribute')
-			->with('permissions')->once()
-			->andReturn($permissions)
-		;
+        // Widget
+        $this->widget = new Widget(
+            new PermissionsRepository($this->app)
+        );
+    }
 
-		// Widget
-		$this->widget = new Widget(
-			new PermissionsRepository($this->app)
-		);
-	}
+    /** @test */
+    public function test()
+    {
+        $this->app['request']->shouldReceive('old')
+            ->once()
+            ->andReturn([]);
 
-	/** @test */
-	public function test()
-	{
-		$this->app['request']->shouldReceive('old')
-			->once()
-			->andReturn([]);
+        $this->app['view']->shouldReceive('make')
+            ->with('platform/permissions::permissions', m::any(), [])
+            ->once();
 
-		$this->app['view']->shouldReceive('make')
-			->with('platform/permissions::permissions', m::any(), [])
-			->once();
-
-		$this->widget->show();
-	}
+        $this->widget->show();
+    }
 }

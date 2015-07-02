@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of the Platform Permissions extension.
  *
@@ -10,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    2.0.3
+ * @version    3.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2015, Cartalyst LLC
@@ -19,6 +20,6 @@
 
 return [
 
-	'global' => 'Global',
+    'global' => 'Global',
 
 ];

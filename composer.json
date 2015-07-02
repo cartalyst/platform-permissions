@@ -40,10 +40,10 @@
 		"php": ">=5.4.0",
 		"cartalyst/composer-installers": "1.2.*",
 		"cartalyst/permissions": "1.0.*",
-		"platform/foundation": "2.0.*"
+		"platform/foundation": "3.0.*"
 	},
 	"require-dev": {
-		"cartalyst/testing": "~2.0"
+		"cartalyst/testing": "~2.0@dev"
 	},
 	"autoload": {
 		"classmap": [
@@ -57,8 +57,8 @@
 	"extra": {
 		"component": "extension",
 		"branch-alias": {
-			"dev-master": "2.0.x-dev"
+			"dev-master": "3.0.x-dev"
 		}
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "stable"
 }

@@ -1,4 +1,5 @@
-<?php namespace Platform\Permissions\Repositories;
+<?php
+
 /**
  * Part of the Platform Permissions extension.
  *
@@ -10,212 +11,202 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    2.0.3
+ * @version    3.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2015, Cartalyst LLC
  * @link       http://cartalyst.com
  */
 
+namespace Platform\Permissions\Repositories;
+
 use Closure;
 use Illuminate\Container\Container;
 use Cartalyst\Permissions\Container as Permissions;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
-class PermissionsRepository implements PermissionsRepositoryInterface {
+class PermissionsRepository implements PermissionsRepositoryInterface
+{
+    /**
+     * The Container instance.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $app;
 
-	/**
-	 * The Container instance.
-	 *
-	 * @var \Illuminate\Container\Container
-	 */
-	protected $app;
+    /**
+     * The Platform Permissions Container instance.
+     *
+     * @var \Cartalyst\Permissions\Container
+     */
+    protected $permissions;
 
-	/**
-	 * The Platform Permissions Container instance.
-	 *
-	 * @var \Cartalyst\Permissions\Container
-	 */
-	protected $permissions;
+    /**
+     * The permissions inheritance status.
+     *
+     * @var bool
+     */
+    protected $inheritable = true;
 
-	/**
-	 * The permissions inheritance status.
-	 *
-	 * @var bool
-	 */
-	protected $inheritable = true;
+    /**
+     * Input array
+     *
+     * @var array
+     */
+    protected $input = [];
 
-	/**
-	 * Input array
-	 *
-	 * @var array
-	 */
-	protected $input = [];
+    /**
+     * Constructor.
+     *
+     * @param  \Illuminate\Container\Container  $app
+     * @return void
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param  \Illuminate\Container\Container  $app
-	 * @return void
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
+        $this->permissions = $app['permissions'];
 
-		$this->permissions = $app['permissions'];
+        $this->preparePermissions();
+    }
 
-		$this->preparePermissions();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getPermissions()
-	{
-		return $this->permissions;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function setPermissions(Permissions $permissions)
+    {
+        $this->permissions = $permissions;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setPermissions(Permissions $permissions)
-	{
-		$this->permissions = $permissions;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function prepare(Closure $permissions)
+    {
+        $container = new Permissions('platform');
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function prepare(Closure $permissions)
-	{
-		$container = new Permissions('platform');
+        call_user_func($permissions, $container, $this->app);
 
-		call_user_func($permissions, $container, $this->app);
+        return $container;
+    }
 
-		return $container;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function inheritable($status = true)
+    {
+        $this->inheritable = (bool) $status;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function inheritable($status = true)
-	{
-		$this->inheritable = (bool) $status;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function find($group)
+    {
+        return $this->permissions->find($group);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function find($group)
-	{
-		return $this->permissions->find($group);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function findAll()
+    {
+        // Get all the registered permissions
+        $groups = $this->permissions->sortBy('name')->makeFirst('global')->all();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function findAll()
-	{
-		// Get all the registered permissions
-		$groups = $this->permissions->sortBy('name')->makeFirst('global')->all();
+        // Loop through the groups
+        foreach ($groups as $group) {
+            // If the group doesn't have permissions,
+            // we will completely remove the group.
+            if (count($group) === 0) {
+                unset($groups[$group->id]);
 
-		// Loop through the groups
-		foreach ($groups as $group)
-		{
-			// If the group doesn't have permissions,
-			// we will completely remove the group.
-			if (count($group) === 0)
-			{
-				unset($groups[$group->id]);
+                continue;
+            }
 
-				continue;
-			}
+            // Loop through the group permissions
+            foreach ($group->all() as $permission) {
+                $permission->inheritable = $this->inheritable;
 
-			// Loop through the group permissions
-			foreach ($group->all() as $permission)
-			{
-				$permission->inheritable = $this->inheritable;
+                if (! Sentinel::hasAnyAccess(['superuser', $permission->id])) {
+                    unset($groups[$group->id][$permission->id]);
+                }
+            }
+        }
 
-				if ( ! Sentinel::hasAnyAccess(['superuser', $permission->id]))
-				{
-					unset($groups[$group->id][$permission->id]);
-				}
-			}
-		}
+        return $groups;
+    }
 
-		return $groups;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function withInput($inputName = 'permissions')
+    {
+        $this->input = $this->app['request']->old($inputName, []);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function withInput($inputName = 'permissions')
-	{
-		$this->input = $this->app['request']->old($inputName, []);
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function prepareEntityPermissions(array $permissions)
+    {
+        // Prepare the given entity permissions
+        foreach ($permissions as $permission => $access) {
+            $permissions[$permission] = $access;
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function prepareEntityPermissions(array $permissions)
-	{
-		// Prepare the given entity permissions
-		foreach ($permissions as $permission => $access)
-		{
-			$permissions[$permission] = $access;
-		}
+        // Return the prepared permissions
+        return array_merge($permissions, $this->input);
+    }
 
-		// Return the prepared permissions
-		return array_merge($permissions, $this->input);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreparedPermissions()
+    {
+        $permissions = [];
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getPreparedPermissions()
-	{
-		$permissions = [];
+        foreach ($this->findAll() as $group) {
+            foreach ($group->all() as $permission) {
+                if ($permission->controller) {
+                    foreach ($permission->methods as $method) {
+                        $permissions["{$permission->controller}@{$method}"] = $permission->id;
+                    }
+                }
+            }
+        }
 
-		foreach ($this->findAll() as $group)
-		{
-			foreach ($group->all() as $permission)
-			{
-				if ($permission->controller)
-				{
-					foreach ($permission->methods as $method)
-					{
-						$permissions["{$permission->controller}@{$method}"] = $permission->id;
-					}
-				}
-			}
-		}
+        return $permissions;
+    }
 
-		return $permissions;
-	}
+    /**
+     * Prepares permissions.
+     *
+     * @return void
+     */
+    protected function preparePermissions()
+    {
+        // Loop through all the enabled extensions
+        foreach ($this->app['extensions']->allEnabled() as $extension) {
+            $callable = $extension->permissions;
 
-	/**
-	 * Prepares permissions.
-	 *
-	 * @return void
-	 */
-	protected function preparePermissions()
-	{
-		// Loop through all the enabled extensions
-		foreach ($this->app['extensions']->allEnabled() as $extension)
-		{
-			$callable = $extension->permissions;
-
-			if ($callable instanceof Closure)
-			{
-				call_user_func($callable, $this->permissions, $this->app);
-			}
-		}
-	}
-
+            if ($callable instanceof Closure) {
+                call_user_func($callable, $this->permissions, $this->app);
+            }
+        }
+    }
 }

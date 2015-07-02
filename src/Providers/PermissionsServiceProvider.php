@@ -1,4 +1,5 @@
-<?php namespace Platform\Permissions\Providers;
+<?php
+
 /**
  * Part of the Platform Permissions extension.
  *
@@ -10,71 +11,68 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    2.0.3
+ * @version    3.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
  * @copyright  (c) 2011-2015, Cartalyst LLC
  * @link       http://cartalyst.com
  */
 
+namespace Platform\Permissions\Providers;
+
 use Cartalyst\Permissions\Container;
 use Cartalyst\Support\ServiceProvider;
 
-class PermissionsServiceProvider extends ServiceProvider {
+class PermissionsServiceProvider extends ServiceProvider
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function boot()
+    {
+        // Register the Blade @permissions extension
+        $this->registerBladePermissionsWidget();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function boot()
-	{
-		// Register the Blade @permissions extension
-		$this->registerBladePermissionsWidget();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function register()
+    {
+        $this->prepareResources();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function register()
-	{
-		$this->prepareResources();
+        $this->bindIf('permissions', function ($app) {
+            return new Container('platform');
+        });
 
-		$this->bindIf('permissions', function($app)
-		{
-			return new Container('platform');
-		});
+        $this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
+    }
 
-		$this->bindIf('platform.permissions', 'Platform\Permissions\Repositories\PermissionsRepository');
-	}
+    /**
+     * Prepare the package resources.
+     *
+     * @return void
+     */
+    protected function prepareResources()
+    {
+        $config = realpath(__DIR__.'/../../config/config.php');
 
-	/**
-	 * Prepare the package resources.
-	 *
-	 * @return void
-	 */
-	protected function prepareResources()
-	{
-		$config = realpath(__DIR__.'/../../config/config.php');
+        $this->mergeConfigFrom($config, 'platform-permissions');
 
-		$this->mergeConfigFrom($config, 'platform-permissions');
+        $this->publishes([
+            $config => config_path('platform-permissions.php'),
+        ], 'config');
+    }
 
-		$this->publishes([
-			$config => config_path('platform-permissions.php'),
-		], 'config');
-	}
-
-	/**
-	 * Register the Blade @permissions extension.
-	 *
-	 * @return void
-	 */
-	protected function registerBladePermissionsWidget()
-	{
-		$this->app['blade.compiler']->extend(function($value)
-		{
-			$matcher = '/(\s*)@permissions(\(.*?\)\s*)/';
-
-			return preg_replace($matcher, '<?php echo Widget::make("platform/permissions::permissions.show", array$2); ?>', $value);
-		});
-	}
-
+    /**
+     * Register the Blade @permissions extension.
+     *
+     * @return void
+     */
+    protected function registerBladePermissionsWidget()
+    {
+        $this->app['blade.compiler']->directive('permissions', function ($value) {
+            return "<?php echo Widget::make('platform/permissions::permissions.show', array$value); ?>";
+        });
+    }
 }
