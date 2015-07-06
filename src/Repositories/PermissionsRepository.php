@@ -23,7 +23,6 @@ namespace Platform\Permissions\Repositories;
 use Closure;
 use Illuminate\Container\Container;
 use Cartalyst\Permissions\Container as Permissions;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class PermissionsRepository implements PermissionsRepositoryInterface
 {
@@ -40,6 +39,13 @@ class PermissionsRepository implements PermissionsRepositoryInterface
      * @var \Cartalyst\Permissions\Container
      */
     protected $permissions;
+
+    /**
+     * The Sentinel instance.
+     *
+     * @var \Cartalyst\Sentinel\Sentinel
+     */
+    protected $sentinel;
 
     /**
      * The permissions inheritance status.
@@ -66,6 +72,8 @@ class PermissionsRepository implements PermissionsRepositoryInterface
         $this->app = $app;
 
         $this->permissions = $app['permissions'];
+
+        $this->sentinel = $app['sentinel'];
 
         $this->preparePermissions();
     }
@@ -140,7 +148,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
             foreach ($group->all() as $permission) {
                 $permission->inheritable = $this->inheritable;
 
-                if (! Sentinel::hasAnyAccess(['superuser', $permission->id])) {
+                if (! $this->sentinel->hasAnyAccess(['superuser', $permission->id])) {
                     unset($groups[$group->id][$permission->id]);
                 }
             }

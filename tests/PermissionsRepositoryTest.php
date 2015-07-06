@@ -76,6 +76,11 @@ class PermissionsRepositoryTest extends IlluminateTestCase
     /** @test */
     public function it_can_find_and_prepare_permissions()
     {
+        $this->app['sentinel']->shouldReceive('hasAnyAccess')
+            ->with(['superuser', 'foo.index'])
+            ->twice()
+            ->andReturn(true);
+
         $preparedPermissions = [
             'FooController@index' => 'foo.index',
         ];
@@ -153,6 +158,11 @@ class PermissionsRepositoryTest extends IlluminateTestCase
     /** @test */
     public function it_can_set_inheritable()
     {
+        $this->app['sentinel']->shouldReceive('hasAnyAccess')
+            ->with(['superuser', 'foo.index'])
+            ->twice()
+            ->andReturn(true);
+
         // Inheritable false
         $this->repository->inheritable(false);
 
