@@ -11,6 +11,12 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
+### v1.0.3 - 2015-07-06
+
+`UPDATED`
+
+- Improved `show()` method of the widget.
+
 ### v1.0.2 - 2015-06-30
 
 `FIXED`
