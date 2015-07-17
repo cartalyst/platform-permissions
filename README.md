@@ -1,6 +1,6 @@
 # Permissions
 
-[![Build Status](http://ci.cartalyst.com/build-status/svg/40)](http://ci.cartalyst.com/build-status/view/40)
+[![Build Status](https://magnum.travis-ci.com/cartalyst/platform-permissions.svg?token=98Zt8zYdwyheTKqziswS&branch=2.0)](https://magnum.travis-ci.com/cartalyst/platform-permissions)
 
 Manage your application permissions.
 
