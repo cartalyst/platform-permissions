@@ -80,6 +80,11 @@ class PermissionsRepositoryTest extends IlluminateTestCase {
 			'FooController@index' => 'foo.index',
 		];
 
+		$this->app['sentinel']->shouldReceive('hasAnyAccess')
+			->with(['superuser', 'foo.index'])
+			->twice()
+			->andReturn(true);
+
 		$permissions = $this->repository->findAll();
 
 		$group = head($permissions);

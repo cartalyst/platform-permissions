@@ -43,7 +43,7 @@
 		"platform/foundation": "2.0.*"
 	},
 	"require-dev": {
-		"cartalyst/testing": "~2.0"
+		"cartalyst/testing": "~2.0@dev"
 	},
 	"autoload": {
 		"classmap": [
@@ -60,5 +60,5 @@
 			"dev-master": "2.0.x-dev"
 		}
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "stable"
 }
