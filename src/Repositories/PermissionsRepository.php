@@ -131,6 +131,9 @@ class PermissionsRepository implements PermissionsRepositoryInterface
      */
     public function findAll()
     {
+        // Get the user
+        $user = $this->sentinel->getUser();
+
         // Get all the registered permissions
         $groups = $this->permissions->sortBy('name')->makeFirst('global')->all();
 
@@ -152,7 +155,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
                     continue;
                 }
 
-                if (! $this->sentinel->hasAnyAccess(['superuser', $permission->id])) {
+                if (! $user->hasAnyAccess(['superuser', $permission->id])) {
                     unset($groups[$group->id][$permission->id]);
                 }
             }
