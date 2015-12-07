@@ -40,7 +40,7 @@
 		"php": ">=5.5.9",
 		"cartalyst/composer-installers": "1.2.*",
 		"cartalyst/permissions": "1.0.*",
-		"platform/foundation": "3.0.*"
+		"platform/foundation": "dev-feature/sentinel-3"
 	},
 	"require-dev": {
 		"cartalyst/testing": "~2.0@dev"
