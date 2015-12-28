@@ -148,6 +148,10 @@ class PermissionsRepository implements PermissionsRepositoryInterface
             foreach ($group->all() as $permission) {
                 $permission->inheritable = $this->inheritable;
 
+                if ($this->sentinel->hasAccess('permissions') && $permission->id !== 'superuser') {
+                    continue;
+                }
+
                 if (! $this->sentinel->hasAnyAccess(['superuser', $permission->id])) {
                     unset($groups[$group->id][$permission->id]);
                 }
