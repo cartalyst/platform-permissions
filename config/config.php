@@ -41,6 +41,10 @@ return [
         $g->permission('superuser', function ($p) {
             $p->label = 'Superuser';
         });
+
+        $g->permission('permissions', function ($p) {
+            $p->label = 'Edit Permissions';
+        });
     },
 
 ];
