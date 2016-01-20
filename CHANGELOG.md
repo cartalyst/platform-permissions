@@ -11,7 +11,13 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
-### v3.0.0 - 2015-06-07
+### v3.1.0 - 2016-01-20
+
+`ADDED`
+
+- A new `Edit Permissions` permission that grants users permissions to modify user/role permissions.
+
+### v3.0.0 - 2015-07-06
 
 - Updated for Platform 4.
 
