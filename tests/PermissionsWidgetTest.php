@@ -74,6 +74,11 @@ class PermissionsWidgetTest extends IlluminateTestCase
     /** @test */
     public function test()
     {
+        $this->app['sentinel']->shouldReceive('hasAccess')
+            ->with('permissions')
+            ->once()
+            ->andReturn(false);
+
         $this->app['sentinel']->shouldReceive('hasAnyAccess')
             ->with(['superuser', 'foo.index'])
             ->once()
