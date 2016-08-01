@@ -1,64 +1,45 @@
 {
-	"name": "platform/permissions",
-	"type": "platform-extension",
-	"description": "",
-	"keywords": [
-		"cartalyst",
-		"platform",
-		"laravel",
-		"extension"
-	],
-	"license": "proprietary",
-	"authors": [
-		{
-			"name": "Cartalyst LLC",
-			"email": "help@cartalyst.com"
-		},
-		{
-			"name": "Bruno Gaspar",
-			"email": "bruno.gaspar@cartalyst.com",
-			"role": "Developer"
-		},
-		{
-			"name": "Dan Syme",
-			"email": "dan.syme@cartalyst.com",
-			"role": "Project Lead"
-		},
-		{
-			"name": "Suhayb Wardany",
-			"email": "su.wardany@cartalyst.com",
-			"role": "Developer"
-		}
-	],
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://packages.cartalyst.com"
-		}
-	],
-	"require": {
-		"php": ">=5.5.9",
-		"cartalyst/composer-installers": "1.2.*",
-		"cartalyst/permissions": "1.0.*",
-		"platform/foundation": "dev-feature/five"
-	},
-	"require-dev": {
-		"cartalyst/testing": "~2.0@dev"
-	},
-	"autoload": {
-		"classmap": [
-			"database/migrations",
-			"database/seeds"
-		],
-		"psr-4": {
-			"Platform\\Permissions\\" : "src/"
-		}
-	},
-	"extra": {
-		"component": "extension",
-		"branch-alias": {
-			"dev-master": "3.1.x-dev"
-		}
-	},
-	"minimum-stability": "stable"
+    "name": "platform/permissions",
+    "type": "platform-extension",
+    "description": "",
+    "keywords": [
+        "cartalyst",
+        "platform",
+        "laravel",
+        "extension"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Cartalyst LLC",
+            "email": "help@cartalyst.com",
+            "homepage": "https://cartalyst.com"
+        }
+    ],
+    "repositories": [
+        { "type": "composer", "url": "https://packages.cartalyst.com" }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "cartalyst/composer-installers": "1.2.*",
+        "cartalyst/permissions": "1.0.*",
+        "platform/foundation": "dev-feature/five"
+    },
+    "require-dev": {
+        "cartalyst/testing": "~2.0@dev"
+    },
+    "autoload": {
+        "classmap": [
+            "database/migrations",
+            "database/seeds"
+        ],
+        "psr-4": { "Platform\\Permissions\\" : "src/" }
+    },
+    "extra": {
+        "component": "extension",
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
+        }
+    },
+    "minimum-stability": "stable"
 }
