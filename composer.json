@@ -23,7 +23,7 @@
         "php": ">=5.5.9",
         "cartalyst/composer-installers": "1.2.*",
         "cartalyst/permissions": "1.0.*",
-        "platform/foundation": "dev-feature/five"
+        "platform/foundation": "4.0.*"
     },
     "require-dev": {
         "cartalyst/testing": "~2.0@dev"
