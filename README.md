@@ -1,26 +1,22 @@
 # Permissions
 
-[![Build Status](https://magnum.travis-ci.com/cartalyst/platform-permissions.svg?token=98Zt8zYdwyheTKqziswS&branch=4.0)](https://magnum.travis-ci.com/cartalyst/platform-permissions)
+[![Build Status](https://magnum.travis-ci.com/cartalyst/platform-permissions.svg?token=98Zt8zYdwyheTKqziswS&branch=5.0)](https://magnum.travis-ci.com/cartalyst/platform-permissions)
 
-Manage your application permissions.
+A Platform 6 Extension to manage your application permissions.
 
 Part of the Cartalyst Arsenal & licensed [Cartalyst PSL](LICENSE). Code well, rock on.
 
 ## Documentation
 
-Reader-friendly Documentation can be found here. [Permissions Manual](https://cartalyst.com/manual/platform-permissions).
+Reader-friendly Documentation can be found [here](https://cartalyst.com/manual/platform-permissions/5.0).
 
-Raw files can be found via this projects docs/version branch.
-
-- [4.0](https://github.com/cartalyst/platform-permissions/tree/docs/4.0)
-- [3.0](https://github.com/cartalyst/platform-permissions/tree/docs/3.0)
-- [2.0](https://github.com/cartalyst/platform-permissions/tree/docs/2.0)
-- [1.0](https://github.com/cartalyst/platform-permissions/tree/docs/1.0)
+Raw files can be found [here](https://github.com/cartalyst/platform-permissions/tree/docs/5.0).
 
 ## Change Log
 
 Important versions listed below. Refer to the [Change Log](CHANGELOG.md) for a full history of the project.
 
+- [5.0](CHANGELOG.md) - TBA
 - [4.0](CHANGELOG.md) - 2016-08-03
 - [3.0](CHANGELOG.md) - 2015-07-06
 - [2.0](CHANGELOG.md) - 2015-03-05

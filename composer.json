@@ -1,7 +1,7 @@
 {
     "name": "platform/permissions",
     "type": "platform-extension",
-    "description": "",
+    "description": "A Platform 6 extension to manage your application permissions.",
     "keywords": [
         "cartalyst",
         "platform",
@@ -20,25 +20,25 @@
         { "type": "composer", "url": "https://packages.cartalyst.com" }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.4",
         "cartalyst/composer-installers": "1.2.*",
         "cartalyst/permissions": "1.0.*",
-        "platform/foundation": "4.0.*"
+        "platform/foundation": "dev-feature/six"
     },
     "require-dev": {
         "cartalyst/testing": "~2.0@dev"
     },
     "autoload": {
         "classmap": [
-            "database/migrations",
-            "database/seeds"
+            "resources/database/migrations",
+            "resources/database/seeds"
         ],
         "psr-4": { "Platform\\Permissions\\" : "src/" }
     },
     "extra": {
         "component": "extension",
         "branch-alias": {
-            "dev-master": "4.0.x-dev"
+            "dev-master": "5.0.x-dev"
         }
     },
     "minimum-stability": "stable"
