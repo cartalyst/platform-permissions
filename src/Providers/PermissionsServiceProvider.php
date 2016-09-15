@@ -55,7 +55,7 @@ class PermissionsServiceProvider extends ServiceProvider
      */
     protected function prepareResources()
     {
-        $config = realpath(__DIR__.'/../../config/config.php');
+        $config = realpath(__DIR__.'/../../resources/config/config.php');
 
         $this->mergeConfigFrom($config, 'platform-permissions');
 
