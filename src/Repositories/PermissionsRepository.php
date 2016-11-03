@@ -213,7 +213,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     protected function preparePermissions()
     {
         // Loop through all the enabled extensions
-        foreach ($this->app['extensions']->allEnabled() as $extension) {
+        foreach ($this->app['extensions.bag']->allEnabled() as $extension) {
             $callable = $extension->permissions;
 
             if ($callable instanceof Closure) {
