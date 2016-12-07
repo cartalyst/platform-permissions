@@ -72,7 +72,7 @@ class PermissionsServiceProvider extends ServiceProvider
     protected function registerBladePermissionsWidget()
     {
         $this->app['blade.compiler']->directive('permissions', function ($value) {
-            return "<?php echo Widget::make('platform/permissions::permissions.show', array$value); ?>";
+            return "<?php echo Widget::make('platform/permissions::permissions.show', array($value)); ?>";
         });
     }
 }
