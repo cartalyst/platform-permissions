@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "cartalyst/composer-installers": "1.2.*",
+        "cartalyst/composer-installers": "^2.0",
         "cartalyst/permissions": "1.0.*",
         "platform/foundation": "dev-feature/six@dev"
     },
