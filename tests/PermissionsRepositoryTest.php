@@ -39,8 +39,9 @@ class PermissionsRepositoryTest extends IlluminateTestCase
 
         $this->app['permissions'] = new Permissions('platform');
 
-        $this->app['extensions'] = m::mock('Cartalyst\Extensions\ExtensionBag');
-        $this->app['extensions']
+        $this->app['extensions'] = m::mock('Cartalyst\Extensions\Repository');
+        $this->app['extensions.bag'] = m::mock('Cartalyst\Extensions\Bag');
+        $this->app['extensions.bag']
             ->shouldReceive('allEnabled')->once()
             ->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
         ;
