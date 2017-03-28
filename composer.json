@@ -1,7 +1,7 @@
 {
     "name": "platform/permissions",
     "type": "platform-extension",
-    "description": "A Platform 6 extension to manage your application permissions.",
+    "description": "A Platform extension to manage your application permissions.",
     "keywords": [
         "cartalyst",
         "platform",
