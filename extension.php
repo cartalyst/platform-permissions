@@ -135,8 +135,8 @@ return [
     | The closure parameters are:
     |
     |   object \Illuminate\Contracts\Routing\Registrar  $router
-    |	object \Cartalyst\Extensions\ExtensionInterface  $extension
-    |	object \Illuminate\Contracts\Foundation\Application  $app
+    |   object \Cartalyst\Extensions\ExtensionInterface  $extension
+    |   object \Illuminate\Contracts\Foundation\Application  $app
     |
     */
 
@@ -159,7 +159,7 @@ return [
     | The closure parameters are:
     |
     |   object \Cartalyst\Permissions\Container  $permissions
-    |	object \Illuminate\Contracts\Foundation\Application  $app
+    |   object \Illuminate\Contracts\Foundation\Application  $app
     |
     */
 
@@ -170,12 +170,14 @@ return [
 
         $global = $app['config']->get('platform-permissions.global');
 
-        if ($global instanceof Closure) {
-            call_user_func(
-                $global, $permissions->group('global', function ($g) {
-                    $g->name = trans('platform/permissions::permissions.global');
-                })
-            );
+        foreach ($global as $permission) {
+            foreach ($permission as $key => $label) {
+                $permissions->group('global', function($g) use ($key, $label) {
+                    $g->permission($key, function ($p) use ($label) {
+                        $p->label = $label;
+                    });
+                });
+            }
         }
     },
 
@@ -192,7 +194,7 @@ return [
     | The closure parameters are:
     |
     |   object \Cartalyst\Settings\Repository  $settings
-    |	object \Illuminate\Contracts\Foundation\Application  $app
+    |   object \Illuminate\Contracts\Foundation\Application  $app
     |
     */
 

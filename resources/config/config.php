@@ -37,14 +37,16 @@ return [
     |
     */
 
-    'global' => function (Group $g) {
-        $g->permission('superuser', function ($p) {
-            $p->label = 'Superuser';
-        });
+    'global' => [
 
-        $g->permission('permissions', function ($p) {
-            $p->label = 'Edit Permissions';
-        });
-    },
+        [
+            'superuser' => 'Superuser',
+        ],
+
+        [
+            'permissions' => 'Edit Permissions',
+        ],
+
+    ],
 
 ];
