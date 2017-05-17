@@ -11,6 +11,12 @@ We do not give estimated times for completion on `Accepted` Proposals.
 
 ---
 
+### v6.0.1 - 2017-05-17
+
+`FIXED`
+
+- Removed closure from the config for Laravel config caching to work properly.
+
 ### v6.0.0 - 2017-02-24
 
 - Updated for Platform 7.
