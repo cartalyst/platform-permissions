@@ -23,7 +23,7 @@
         "php": ">=5.6.4",
         "cartalyst/composer-installers": "^2.0",
         "cartalyst/permissions": "1.0.*",
-        "platform/foundation": "~6.0"
+        "platform/foundation": "~7.0"
     },
     "require-dev": {
         "cartalyst/testing": "~2.0@dev"
@@ -38,7 +38,7 @@
     "extra": {
         "component": "extension",
         "branch-alias": {
-            "dev-master": "5.0.x-dev"
+            "dev-master": "7.0.x-dev"
         }
     },
     "minimum-stability": "dev",
