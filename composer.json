@@ -25,8 +25,8 @@
     "require": {
         "php": "^7.2",
         "cartalyst/composer-installers": "^2.0",
-        "cartalyst/permissions": "1.0.*",
-        "platform/foundation": "~7.0"
+        "cartalyst/permissions": "^2.0",
+        "platform/foundation": "^8.0"
     },
     "require-dev": {
         "cartalyst/php-cs-fixer-config": "^1.0",
