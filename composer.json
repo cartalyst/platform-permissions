@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": "^7.2",
         "cartalyst/composer-installers": "^2.0",
         "cartalyst/permissions": "1.0.*",
         "platform/foundation": "~7.0"
