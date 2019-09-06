@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -29,19 +29,19 @@ use Platform\Permissions\Repositories\PermissionsRepository;
 class PermissionsWidgetTest extends IlluminateTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->app['permissions'] = new Permissions('platform');
 
-        $this->app['extensions'] = m::mock('Cartalyst\Extensions\Repository');
+        $this->app['extensions']     = m::mock('Cartalyst\Extensions\Repository');
         $this->app['extensions.bag'] = m::mock('Cartalyst\Extensions\Bag');
         $this->app['extensions.bag']
             ->shouldReceive('allEnabled')->once()
-            ->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
+            ->andReturn([$this->extension = m::mock('Cartalyst\Extensions\Extension')])
         ;
 
         $permissions = function (Permissions $permissions) {
@@ -78,20 +78,24 @@ class PermissionsWidgetTest extends IlluminateTestCase
         $this->app['sentinel']->shouldReceive('hasAccess')
             ->with('permissions')
             ->once()
-            ->andReturn(false);
+            ->andReturn(false)
+        ;
 
         $this->app['sentinel']->shouldReceive('hasAnyAccess')
             ->with(['superuser', 'foo.index'])
             ->once()
-            ->andReturn(true);
+            ->andReturn(true)
+        ;
 
         $this->app['request']->shouldReceive('old')
             ->once()
-            ->andReturn([]);
+            ->andReturn([])
+        ;
 
         $this->app['view']->shouldReceive('make')
             ->with('platform/permissions::permissions', m::any(), [])
-            ->once();
+            ->once()
+        ;
 
         $this->widget->show();
     }

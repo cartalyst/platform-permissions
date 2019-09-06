@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -26,7 +26,7 @@ use Cartalyst\Support\ServiceProvider;
 class PermissionsServiceProvider extends ServiceProvider
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function boot()
     {
@@ -35,7 +35,7 @@ class PermissionsServiceProvider extends ServiceProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -72,7 +72,7 @@ class PermissionsServiceProvider extends ServiceProvider
     protected function registerBladePermissionsWidget()
     {
         $this->app['blade.compiler']->directive('permissions', function ($value) {
-            return "<?php echo Widget::make('platform/permissions::permissions.show', array($value)); ?>";
+            return "<?php echo Widget::make('platform/permissions::permissions.show', array(${value})); ?>";
         });
     }
 }

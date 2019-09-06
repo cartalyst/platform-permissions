@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -28,22 +28,23 @@ use Platform\Permissions\Repositories\PermissionsRepository;
 class PermissionsRepositoryTest extends IlluminateTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->app['config'] = m::mock('Illuminate\Config\Repository');
-        $this->app['config']->shouldReceive('get')->andReturn(function () {});
+        $this->app['config']->shouldReceive('get')->andReturn(function () {
+        });
 
         $this->app['permissions'] = new Permissions('platform');
 
-        $this->app['extensions'] = m::mock('Cartalyst\Extensions\Repository');
+        $this->app['extensions']     = m::mock('Cartalyst\Extensions\Repository');
         $this->app['extensions.bag'] = m::mock('Cartalyst\Extensions\Bag');
         $this->app['extensions.bag']
             ->shouldReceive('allEnabled')->once()
-            ->andReturn([ $this->extension = m::mock('Cartalyst\Extensions\Extension') ])
+            ->andReturn([$this->extension = m::mock('Cartalyst\Extensions\Extension')])
         ;
 
         $this->app['translator']->shouldReceive('trans')->andReturn('foo');
@@ -80,12 +81,14 @@ class PermissionsRepositoryTest extends IlluminateTestCase
         $this->app['sentinel']->shouldReceive('hasAccess')
             ->with('permissions')
             ->twice()
-            ->andReturn(false);
+            ->andReturn(false)
+        ;
 
         $this->app['sentinel']->shouldReceive('hasAnyAccess')
             ->with(['superuser', 'foo.index'])
             ->twice()
-            ->andReturn(true);
+            ->andReturn(true)
+        ;
 
         $preparedPermissions = [
             'FooController@index' => 'foo.index',
@@ -95,7 +98,7 @@ class PermissionsRepositoryTest extends IlluminateTestCase
 
         $group = head($permissions);
 
-        $this->assertEquals($preparedPermissions, $this->repository->getPreparedPermissions());
+        $this->assertSame($preparedPermissions, $this->repository->getPreparedPermissions());
 
         $this->assertTrue($group->hasPermissions());
 
@@ -119,12 +122,12 @@ class PermissionsRepositoryTest extends IlluminateTestCase
         $this->app['request']
             ->shouldReceive('old')
             ->with('permissions', [])
-            ->once()->andReturn([ 'foo' => 'bar' ])
+            ->once()->andReturn(['foo' => 'bar'])
         ;
 
         $this->repository->withInput();
 
-        $this->assertEquals($expectedPermissions, $this->repository->prepareEntityPermissions([ 'Foo@foo' => 'foo' ]));
+        $this->assertSame($expectedPermissions, $this->repository->prepareEntityPermissions(['Foo@foo' => 'foo']));
     }
 
     /** @test */
@@ -167,12 +170,14 @@ class PermissionsRepositoryTest extends IlluminateTestCase
         $this->app['sentinel']->shouldReceive('hasAccess')
             ->with('permissions')
             ->twice()
-            ->andReturn(false);
+            ->andReturn(false)
+        ;
 
         $this->app['sentinel']->shouldReceive('hasAnyAccess')
             ->with(['superuser', 'foo.index'])
             ->twice()
-            ->andReturn(true);
+            ->andReturn(true)
+        ;
 
         // Inheritable false
         $this->repository->inheritable(false);

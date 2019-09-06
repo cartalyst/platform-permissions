@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -55,7 +55,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     protected $inheritable = true;
 
     /**
-     * Input array
+     * Input array.
      *
      * @var array
      */
@@ -64,7 +64,8 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     /**
      * Constructor.
      *
-     * @param  \Illuminate\Container\Container  $app
+     * @param \Illuminate\Container\Container $app
+     *
      * @return void
      */
     public function __construct(Container $app)
@@ -79,7 +80,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPermissions()
     {
@@ -87,7 +88,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setPermissions(Permissions $permissions)
     {
@@ -97,7 +98,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prepare(Closure $permissions)
     {
@@ -109,7 +110,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function inheritable($status = true)
     {
@@ -119,7 +120,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function find($group)
     {
@@ -127,7 +128,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findAll()
     {
@@ -162,7 +163,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function withInput($inputName = 'permissions')
     {
@@ -172,7 +173,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prepareEntityPermissions(array $permissions)
     {
@@ -186,7 +187,7 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPreparedPermissions()
     {

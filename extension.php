@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -25,7 +25,6 @@ use Cartalyst\Permissions\Container as Permissions;
 use Illuminate\Contracts\Routing\Registrar as Router;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Slug
@@ -119,9 +118,7 @@ return [
     */
 
     'providers' => [
-
         Platform\Permissions\Providers\PermissionsServiceProvider::class,
-
     ],
 
     /*
@@ -141,7 +138,6 @@ return [
     */
 
     'routes' => function (Router $router, ExtensionInterface $extension, Application $app) {
-
     },
 
     /*
@@ -172,7 +168,7 @@ return [
 
         foreach ($global as $permission) {
             foreach ($permission as $key => $label) {
-                $permissions->group('global', function($g) use ($key, $label) {
+                $permissions->group('global', function ($g) use ($key, $label) {
                     $g->permission($key, function ($p) use ($label) {
                         $p->label = $label;
                     });
@@ -199,7 +195,6 @@ return [
     */
 
     'settings' => function (Settings $settings, Application $app) {
-
     },
 
     /*
@@ -223,5 +218,4 @@ return [
     */
 
     'menus' => [],
-
 ];

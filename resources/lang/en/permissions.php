@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -19,7 +19,5 @@
  */
 
 return [
-
     'global' => 'Global',
-
 ];

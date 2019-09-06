@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -18,10 +18,7 @@
  * @link       https://cartalyst.com
  */
 
-use Cartalyst\Permissions\Group;
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Global Permissions
@@ -38,7 +35,6 @@ return [
     */
 
     'global' => [
-
         [
             'superuser' => 'Superuser',
         ],
@@ -46,7 +42,5 @@ return [
         [
             'permissions' => 'Edit Permissions',
         ],
-
     ],
-
 ];

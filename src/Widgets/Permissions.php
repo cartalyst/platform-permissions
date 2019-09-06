@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -34,7 +34,8 @@ class Permissions
     /**
      * Constructor.
      *
-     * @param  \Platform\Permissions\Repositories\PermissionsRepositoryInterface  $permissions
+     * @param \Platform\Permissions\Repositories\PermissionsRepositoryInterface $permissions
+     *
      * @return void
      */
     public function __construct(PermissionsRepositoryInterface $permissions)
@@ -45,8 +46,9 @@ class Permissions
     /**
      * Shows the available permissions.
      *
-     * @param  array  $entityPermissions
-     * @param  bool  $inheritable
+     * @param array $entityPermissions
+     * @param bool  $inheritable
+     *
      * @return mixed
      */
     public function show($entityPermissions = [], $inheritable = true)

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Part of the Platform Permissions extension.
  *
  * NOTICE OF LICENSE
@@ -42,7 +42,8 @@ interface PermissionsRepositoryInterface
     /**
      * Prepares the given permissions.
      *
-     * @param  \Closure  $permissions
+     * @param \Closure $permissions
+     *
      * @return \Cartalyst\Permissions\Container
      */
     public function prepare(Closure $permissions);
@@ -50,7 +51,8 @@ interface PermissionsRepositoryInterface
     /**
      * Sets the permissions inheritance status.
      *
-     * @param  bool  $status
+     * @param bool $status
+     *
      * @return $this
      */
     public function inheritable($status = true);
@@ -58,7 +60,8 @@ interface PermissionsRepositoryInterface
     /**
      * Returns the given group permissions.
      *
-     * @param  string  $group
+     * @param string $group
+     *
      * @return array
      */
     public function find($group);
@@ -73,7 +76,8 @@ interface PermissionsRepositoryInterface
     /**
      * Sets permissions from the request.
      *
-     * @param  string  $inputName
+     * @param string $inputName
+     *
      * @return $this
      */
     public function withInput($inputName = 'permissions');
@@ -81,7 +85,8 @@ interface PermissionsRepositoryInterface
     /**
      * Prepares the given permissions, merging in any old input.
      *
-     * @param  array  $permissions
+     * @param array $permissions
+     *
      * @return array
      */
     public function prepareEntityPermissions(array $permissions);
