@@ -29,6 +29,18 @@ use Platform\Permissions\Repositories\PermissionsRepository;
 class PermissionsWidgetTest extends IlluminateTestCase
 {
     /**
+     * Close mockery.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        $this->addToAssertionCount(1);
+
+        m::close();
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp(): void
@@ -92,7 +104,7 @@ class PermissionsWidgetTest extends IlluminateTestCase
             ->andReturn([])
         ;
 
-        $this->app['view']->shouldReceive('make')
+        $this->app['Illuminate\Contracts\View\Factory']->shouldReceive('make')
             ->with('platform/permissions::permissions', m::any(), [])
             ->once()
         ;
