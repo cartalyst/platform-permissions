@@ -20,6 +20,7 @@
 
 namespace Platform\Permissions\Widgets;
 
+use Illuminate\Support\Arr;
 use Platform\Permissions\Repositories\PermissionsRepositoryInterface;
 
 class Permissions
@@ -58,6 +59,17 @@ class Permissions
         $entityPermissions = array_map(function ($permission) {
             return is_bool($permission) ? ($permission === true ? '1' : '-1') : '0';
         }, $this->permissions->withInput()->prepareEntityPermissions($entityPermissions));
+
+        array_walk($permissions, function($group) use ($entityPermissions) {
+            foreach ($group->all() as $permission) {
+                $permission->isAllowed = Arr::get($entityPermissions, $permission->id) === '1' ? true : false;
+                $permission->isDenied  = Arr::get($entityPermissions, $permission->id, ($permission->inheritable ? null : '-1')) === '-1' ? true : false;
+
+                if ($permission->inheritable) {
+                    $permission->isInherited = Arr::get($entityPermissions, $permission->id, '0') === '0' ? true : false;
+                }
+            }
+        });
 
         return view('platform/permissions::permissions', compact('permissions', 'entityPermissions'));
     }
