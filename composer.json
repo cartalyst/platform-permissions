@@ -23,14 +23,14 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2.5",
         "cartalyst/composer-installers": "^2.0",
         "cartalyst/permissions": "^2.0",
-        "platform/foundation": "^8.0"
+        "platform/foundation": "^9.0"
     },
     "require-dev": {
         "cartalyst/php-cs-fixer-config": "^1.0",
-        "cartalyst/testing": "^3.0"
+        "cartalyst/testing": "^4.0"
     },
     "autoload": {
         "classmap": [
@@ -54,7 +54,7 @@
     "extra": {
         "component": "extension",
         "branch-alias": {
-            "dev-master": "8.0.x-dev"
+            "dev-master": "9.0.x-dev"
         }
     },
     "scripts": {

@@ -11,10 +11,10 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Platform Permissions extension
- * @version    8.0.1
+ * @version    9.0.0
  * @author     Cartalyst LLC
  * @license    Cartalyst PSL
- * @copyright  (c) 2011-2019, Cartalyst LLC
+ * @copyright  (c) 2011-2020, Cartalyst LLC
  * @link       https://cartalyst.com
  */
 
@@ -60,10 +60,10 @@ class Permissions
             return is_bool($permission) ? ($permission === true ? '1' : '-1') : '0';
         }, $this->permissions->withInput()->prepareEntityPermissions($entityPermissions));
 
-        array_walk($permissions, function($group) use ($entityPermissions) {
+        array_walk($permissions, function ($group) use ($entityPermissions) {
             foreach ($group->all() as $permission) {
                 $permission->isAllowed = Arr::get($entityPermissions, $permission->id) === '1' ? true : false;
-                $permission->isDenied  = Arr::get($entityPermissions, $permission->id, ($permission->inheritable ? null : '-1')) === '-1' ? true : false;
+                $permission->isDenied = Arr::get($entityPermissions, $permission->id, ($permission->inheritable ? null : '-1')) === '-1' ? true : false;
 
                 if ($permission->inheritable) {
                     $permission->isInherited = Arr::get($entityPermissions, $permission->id, '0') === '0' ? true : false;
