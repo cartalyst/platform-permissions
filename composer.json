@@ -23,10 +23,10 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "cartalyst/composer-installers": "^2.0",
         "cartalyst/permissions": "^2.0",
-        "platform/foundation": "^10.0"
+        "platform/foundation": "^11.0"
     },
     "require-dev": {
         "cartalyst/php-cs-fixer-config": "^1.0",
@@ -54,7 +54,7 @@
     "extra": {
         "component": "extension",
         "branch-alias": {
-            "dev-master": "10.0.x-dev"
+            "dev-master": "11.0.x-dev"
         }
     },
     "scripts": {
