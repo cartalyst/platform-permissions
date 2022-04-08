@@ -25,12 +25,12 @@
     "require": {
         "php": "^8.0",
         "cartalyst/composer-installers": "^2.0",
-        "cartalyst/permissions": "^2.0",
+        "cartalyst/permissions": "^3.0",
         "platform/foundation": "^11.0"
     },
     "require-dev": {
-        "cartalyst/php-cs-fixer-config": "^1.0",
-        "cartalyst/testing": "^5.0"
+        "cartalyst/php-cs-fixer-config": "^2.0",
+        "cartalyst/testing": "^6.0"
     },
     "autoload": {
         "classmap": [
@@ -49,7 +49,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "cartalyst/composer-installers": true
+        }
     },
     "extra": {
         "component": "extension",
