@@ -49,10 +49,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "cartalyst/composer-installers": true
-        }
+        "sort-packages": true
     },
     "extra": {
         "component": "extension",
